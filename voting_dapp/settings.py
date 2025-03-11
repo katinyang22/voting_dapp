@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 from datetime import timedelta
 import os
 import dotenv
+from dotenv import load_dotenv
 
 from django.conf import settings
 
@@ -25,6 +26,13 @@ if os.path.isfile(dotenv_file):
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+if not SECRET_KEY:
+    raise ValueError("Missing SECRET_KEY environment variable")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
