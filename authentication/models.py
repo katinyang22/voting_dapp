@@ -2,10 +2,25 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django import forms
 
 # Extend User model if needed
 class User(AbstractUser):
     pass
+
+class UserChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "email")
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 # Election model for multiple elections
 class Election(models.Model):
