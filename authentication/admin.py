@@ -11,7 +11,6 @@ from authentication.forms import CsvImportForm, RESTApiImportForm
 
 from .models import Profile, User
 
-
 class UserCreationForm(forms.ModelForm):
     """
     A form for creating new users. Includes all the required
