@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_otp',
     'django_otp.plugins.otp_totp',
+    'daphne',  
+    'channels'
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -161,12 +163,12 @@ WSGI_APPLICATION = 'voting_dapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'voting_dapp',
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': 'localhost',
-        'PORT': '3306'
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME", "default_db"),
+        "USER": os.getenv("DB_USER", "default_user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "default_password"),
+        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -190,12 +192,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
-
+EMAIL_HOST_USER = os.getenv("EMAIL_USER", "default_email@example.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD", "default_password")
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -216,3 +216,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# ASGI Application setup for WebSockets
+ASGI_APPLICATION = "voting_dapp.asgi.application"
+
+# Django Channels configuration
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
