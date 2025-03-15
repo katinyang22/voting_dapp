@@ -36,7 +36,7 @@ class Candidate(models.Model):
 # Voter model to prevent duplicate votes
 class Voter(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE, related_name="voters")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="voter_profile")
     has_voted = models.BooleanField(default=False)
 
 # Voting function with real-time updates

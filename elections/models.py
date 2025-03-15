@@ -79,7 +79,7 @@ def after_adding_candidate(sender, instance, **kwargs):
 
 class Vote(models.Model):
     election = models.ForeignKey(to=Election, on_delete=models.CASCADE, verbose_name='Election')
-    voter = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='voter', verbose_name='Voter', null=True)
+    voter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vote_record")
     candidate = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='candidate', verbose_name='Candidate', null=True)
     data = models.TextField(verbose_name='sha_512_256_generated_hash')
     created_at = models.DateTimeField(auto_now_add=True)
